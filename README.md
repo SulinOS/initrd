@@ -1,5 +1,5 @@
-#for install
+# for install
 `make install DESTDIR=/`
 
-#usage
+# usage
 update-initrd KERNELVER=yourversion MODDIR=yourmoddir 
