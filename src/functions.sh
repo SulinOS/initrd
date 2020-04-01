@@ -13,7 +13,7 @@ run_modules(){
 	for i in $(ls /scripts | sort)
 	do
 		debug "Running $i"
-		. /scripts/$i || fallback_shell
+		. /scripts/$i || true
 	done
 }
 mount_handler(){
@@ -47,10 +47,11 @@ is_file_avaiable(){
 }
 
 fallback_shell(){
-	warn "Booting dead. Now you are in initial ramdisk."
 	while true
 	do
+		warn "Booting dead. Now you are in initial ramdisk."
 		/busybox setsid cttyhack /bin/sh || /busybox sh
+		clear
 	done
 }
 detect_root(){
