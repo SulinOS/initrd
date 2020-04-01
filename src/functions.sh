@@ -13,16 +13,21 @@ generate_rootfs(){
 run_modules(){
 	for i in $(ls /scripts | sort)
 	do
+		debug "Running $i"
 		. /scripts/$i
 	done
 }
 mount_handler(){
 	msg "Mount handler running"
-	/busybox mount -t devtmpfs dev /dev || true
-	/busybox mount -t proc proc /proc || true
-	/busybox mount -t sysfs sys /sys || true
-	/busybox mount -t tmpfs tmpfs /tmp || true
-	/busybox mount -t tmpfs tmpfs /run || true
+	/busybox mount -t devtmpfs dev /dev -o nosuid,noexec,nodev || true
+	/busybox mount -t proc proc /proc -o nosuid,noexec,nodev   || true
+	/busybox mount -t sysfs sys /sys -o nosuid,noexec,nodev    || true
+	/busybox mount -t tmpfs tmpfs /tmp -o nosuid,noexec,nodev  || true
+	/busybox mount -t tmpfs tmpfs /run -o nosuid,noexec,nodev  || true
+	if [ -e /sys/firmware/efi ]; then
+		msg "UEFI mode detected."
+		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec
+	fi
 }
 parse_cmdline(){
 	for i in $(cat /proc/cmdline)
@@ -30,37 +35,20 @@ parse_cmdline(){
 		export $i
 	done
 }
-start_dmesg(){
-	msg "Starting dmesg"
-	/busybox dmesg -n 1 || true
-}
-msg() {
-    echo -e " ${C_GREEN}*${C_CLEAR} ${@}"
-}
-debug() {
-    [ ! -n "$debug"  ] || echo -e " ${C_BLUE}*${C_CLEAR} ${@}"
-}
-
-warn() {
-    echo -e " ${C_YELLOW}*${C_CLEAR} ${@}"
-}
-
-err() {
-    echo -e " ${C_RED}*${C_CLEAR} ${@}"
-}
 
 is_file_avaiable(){
     disktmp=$(mktemp)
-    rm -rf $disktmp
+    rm -f $disktmp
     mkdir -p $disktmp || true 
     mount -t auto "$1" $disktmp 2>/dev/null
     [ -f "$disktmp/$2" ] && [ -b "$1" ]
     status=$?
-    umount $disktmp 2>/dev/null
+    umount -lf $disktmp 2>/dev/null
     return $status
 }
 
 fallback_shell(){
+	warn "Booting dead. Now you are in initial ramdisk."
 	/busybox setsid cttyhack /bin/sh || /busybox sh	
 }
 detect_root(){

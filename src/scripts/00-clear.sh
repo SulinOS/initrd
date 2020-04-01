@@ -1,4 +1,4 @@
 #!/busybox sh
 [ -n $debug ] && clear
-msg "Starting SulinOS"
+msg "Starting GNU/Linux"
 [ ! -n $quiet ] && exec >/dev/null
