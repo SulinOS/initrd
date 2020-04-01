@@ -7,23 +7,22 @@ generate_rootfs(){
 	/busybox mkdir /tmp
 	/busybox mkdir /run
 	/busybox --install -s /bin
-	/busybox mknod /dev/misc/rtc0 c 254 0 2>/dev/null
 	/busybox mdev -s 2>/dev/null
 }
 run_modules(){
 	for i in $(ls /scripts | sort)
 	do
 		debug "Running $i"
-		. /scripts/$i
+		. /scripts/$i || fallback_shell
 	done
 }
 mount_handler(){
 	msg "Mount handler running"
-	/busybox mount -t devtmpfs dev /dev -o nosuid,noexec,nodev || true
-	/busybox mount -t proc proc /proc -o nosuid,noexec,nodev   || true
-	/busybox mount -t sysfs sys /sys -o nosuid,noexec,nodev    || true
-	/busybox mount -t tmpfs tmpfs /tmp -o nosuid,noexec,nodev  || true
-	/busybox mount -t tmpfs tmpfs /run -o nosuid,noexec,nodev  || true
+	/busybox mount -t devtmpfs dev /dev || true
+	/busybox mount -t proc proc /proc   || true
+	/busybox mount -t sysfs sys /sys    || true
+	/busybox mount -t tmpfs tmpfs /tmp  || true
+	/busybox mount -t tmpfs tmpfs /run  || true
 	if [ -e /sys/firmware/efi ]; then
 		msg "UEFI mode detected."
 		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec
@@ -49,7 +48,10 @@ is_file_avaiable(){
 
 fallback_shell(){
 	warn "Booting dead. Now you are in initial ramdisk."
-	/busybox setsid cttyhack /bin/sh || /busybox sh	
+	while true
+	do
+		/busybox setsid cttyhack /bin/sh || /busybox sh
+	done
 }
 detect_root(){
 	msg "Detecting real root"
