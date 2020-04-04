@@ -11,7 +11,7 @@ debug "Subdir=$subdir"
 debug "init=$init"
 
 if [ -f /new_root/$subdir/etc/initrd.local ]; then
-    msg "Running local initrd scripts"
+    inf "Running local initrd scripts"
     . /new_root/$subdir/etc/initrd.local || true
 fi
 

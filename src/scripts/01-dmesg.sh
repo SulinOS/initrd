@@ -1,2 +1,2 @@
-msg "Starting dmesg"
+inf "Starting dmesg"
 /busybox dmesg -n 1 || true

@@ -24,7 +24,7 @@ mount_handler(){
 	/busybox mount -t tmpfs tmpfs /tmp  || true
 	/busybox mount -t tmpfs tmpfs /run  || true
 	if [ -e /sys/firmware/efi ]; then
-		msg "UEFI mode detected."
+		inf "UEFI mode detected."
 		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec
 	fi
 }
@@ -75,7 +75,17 @@ detect_root(){
 		UUID=* ) eval $root; device="/dev/disk/by-uuid/$UUID"  ;;
 		LABEL=*) eval $root; device="/dev/disk/by-label/$LABEL" ;;
 		""     ) err "No root device specified." 
-			 echo -ne "\033[33;1mWhere is the root>\033[;0m"; read root ;;
+			 echo -ne "\033[33;1m * Where is the root > \033[;0m"
+			 while read root
+			 do
+			 	if [ -b $root ] ; then
+			 		inf "Setting root $root"
+			 		return 0
+			 	else
+			 		warn "\"$root\" is not a block device."
+ 					 echo -ne "\033[33;1m * Where is the root>\033[;0m"
+ 				fi
+			 done ;;
 	esac
 	export root
 	export rootfstype

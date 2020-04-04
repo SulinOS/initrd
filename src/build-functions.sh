@@ -31,19 +31,21 @@ parse_args(){
 	export WORKDIR=$(mktemp)
 	export OUTPUT=/boot/initrd.img-$(uname -r)
 	export nocolor=false
+	export keepworkdir=false
+	export debug=false
 	for i in $*
 	do
 		if [ "$i" == "-h" ] || [ "$i" == "--help" ] ; then
 			help_msg
 			exit 0
 		elif [ "$i" == "-d" ] || [ "$i" == "--debug" ]; then
-			export debug=true
+			debug=true
 		elif [ "$i" == "-k" ] || [ "$i" == "--keep" ] ; then
-			export keepwordkir=true
+			keepworkdir=true
 		elif [ "$i" == "-n" ] || [ "$i" == "--no-color" ] ; then
-			nocolor=true
+			export nocolor=true
 		elif [ "$i" == "-c" ] || [ "$i" == "--no-cpio" ] ; then
-			nocpio=true
+			export nocpio=true
 		elif [ "$i" == "-f" ] || [ "$i" == "--fallback" ] ; then
 			fallback=true
 		else
@@ -60,6 +62,8 @@ generate_workdir(){
 	do
 		install $src/$file.sh $WORKDIR/$file
 	done
+	msg "Merging with overlay"
+	cp -prf $src/overlay/* $WORKDIR
 }
 modules_install(){
 	for i in $(ls $src/addons | sort)
@@ -83,7 +87,7 @@ generate_cpio(){
 }
 
 clean_directory(){
-	if [ "$keepworkdir" == "true" ] ; then
+	if [ "$keepworkdir" != "true" ] ; then
 		rm -rf $WORKDIR
 		msg "Clearing workdir."
 	else
