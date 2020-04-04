@@ -31,7 +31,7 @@ mount_handler(){
 parse_cmdline(){
 	for i in $(cat /proc/cmdline)
 	do
-		export $i
+		export $i || true
 	done
 }
 
@@ -74,7 +74,8 @@ detect_root(){
 		/dev/* ) device=$root ;;
 		UUID=* ) eval $root; device="/dev/disk/by-uuid/$UUID"  ;;
 		LABEL=*) eval $root; device="/dev/disk/by-label/$LABEL" ;;
-		""     ) err "No root device specified." 
+		""     ) [ "$boot" == "live" ] && return 0
+			 err "No root device specified." 
 			 echo -ne "\033[33;1m * Where is the root > \033[;0m"
 			 while read root
 			 do

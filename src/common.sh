@@ -1,4 +1,4 @@
-if [ -t 0 ] && [ "$nocolor" == "false" ] ;then
+if [ -t 0 ] && [ "$nocolor" != "true" ] ;then
     C_BLACK='\e[1;30m'
     C_RED='\e[1;31m'
     C_GREEN='\e[1;32m'
