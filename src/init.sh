@@ -1,5 +1,7 @@
 #!/busybox ash
 . /vars
+. /etc/initrd.conf
+. /common
 . /functions
 generate_rootfs
 mount_handler
