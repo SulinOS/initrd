@@ -2,9 +2,9 @@
 
 common_boot(){
 	debug "Moving mountpoints"
-	mount --move /sys /rootfs/kernel/sys
-	mount --move /proc /rootfs/kernel/proc
-	mount --move /dev /rootfs/kernel/dev
+	mount --move /sys /rootfs/sys
+	mount --move /proc /rootfs/proc
+	mount --move /dev /rootfs/dev
 	mount --move /tmp /rootfs/tmp
 	mount --move /run /rootfs/run
 }
@@ -44,10 +44,10 @@ normal_boot(){
 	mount -t tmpfs tmpfs /rootfs
 	mkdir -p /rootfs/tmp
 	mkdir -p /rootfs/run
-	debug "Creating symlinks"
-	ln -s kernel/dev /rootfs/dev
-	ln -s kernel/sys /rootfs/sys
-	ln -s kernel/proc /rootfs/proc
+	mkdir -p /rootfs/dev
+	mkdir -p /rootfs/sys
+	mkdir -p /rootfs/proc
+	debug "Creating binds"
 	for i in boot bin lib32 etc kernel lib64 sbin usr data lib root var
 	do
 		debug "Binding /$i"
@@ -57,10 +57,10 @@ normal_boot(){
 	common_boot
 }
 
-clasic_boot(){
+classic_boot(){
 	debug "Mounting rootfs"
 	mkdir -p /rootfs
-	mount -t auto $root /newroot
+	mount -t auto $root /rootfs
 	common_boot
 }
 
@@ -68,10 +68,10 @@ if [ "$boot" == "live" ]; then
 	msg "Booting from live-media"
 	live_boot
 fi
-if [ "$boot" == "classic" ]; then
-	msg "Booting from $root (classic)"
-	clasic_boot
-else
+if [ "$boot" == "normal" ]; then
 	msg "Booting from $root"
 	normal_boot
+else
+	msg "Booting from $root (classic)"
+	classic_boot
 fi

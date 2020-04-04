@@ -7,7 +7,7 @@ fi
 [ -d "/new_root/$subdir" ] || subdir="/"
 debug "Subdir=$subdir"
 
-[ ! -n $init ] || init=/sbin/init
+[ "$init" != "" ] || init=/sbin/init
 debug "init=$init"
 
 if [ -f /new_root/$subdir/etc/initrd.local ]; then
