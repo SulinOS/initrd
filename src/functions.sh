@@ -38,7 +38,7 @@ parse_cmdline(){
 is_file_avaiable(){
     disktmp=$(mktemp)
     rm -f $disktmp
-    mkdir -p $disktmp || true 
+    mkdir -p $disktmp || true
     mount -t auto "$1" $disktmp 2>/dev/null
     [ -f "$disktmp/$2" ] && [ -b "$1" ]
     status=$?

@@ -11,7 +11,9 @@ add_extra_module(){
     do
         name=$(basename $line)
         echo -e "  \033[34;1mInstall:\033[;0m $name"
-        cat $line > ${WORKDIR}/$MODDIR/extra/$name
+        mkdir -p ${WORKDIR}/$line
+        rmdir ${WORKDIR}/$line
+        cat $line > ${WORKDIR}/$line
     done
 }
 for i in $EXTRA_MODULES

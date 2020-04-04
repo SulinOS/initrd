@@ -1,6 +1,5 @@
 PATH=/bin:/usr/bin:/usr/sbin:/sbin
 TERM=linux
-EXTRA_MODULES=""
 rootfstype=ext4
 if [ -t 0 ];then
     C_BLACK='\e[1;30m'
@@ -25,3 +24,4 @@ warn() {
 err() {
     echo -e " ${C_RED}*${C_CLEAR} ${@}"
 }
+. /etc/initrd.conf
