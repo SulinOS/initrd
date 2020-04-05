@@ -36,6 +36,22 @@ live_boot(){
 	mount -t tmpfs -o size=100% none /root/b
 	common_boot || fallback_shell
 }
+freeze_mount(){
+	mkdir -p /root/a # upper
+	mkdir -p /root/b # workdir
+	mkdir -p /rootfs/
+	mkdir -p /source/ # lower
+	debug "Mounting freeze media"
+	mount -t auto $root /source
+	umount /root/a 2>/dev/null
+	umount /root/b 2>/dev/null
+	debug "Creating overlayfs"
+	mount -t overlay -o lowerdir=/source/,upperdir=/root/a/,workdir=/root/b overlay /rootfs
+	mount -t tmpfs -o size=100% none /root/a
+	mount -t tmpfs -o size=100% none /root/b
+	common_boot || fallback_shell
+}
+
 normal_boot(){
 	debug "Mounting rootfs"
 	mkdir -p /rootfs
@@ -66,11 +82,14 @@ classic_boot(){
 }
 
 if [ "$boot" == "live" ]; then
-	msg "Booting from live-media"
+	msg "Booting from live-media ($root)"
 	live_boot || fallback_shell
 elif [ "$boot" == "normal" ]; then
 	msg "Booting from $root"
 	normal_boot || fallback_shell
+elif [ "$boot" == "freeze" ]; then
+	msg "Booting from $root (freeze)"
+	freeze_boot || fallback_shell
 else
 	msg "Booting from $root (classic)"
 	classic_boot || fallback_shell
