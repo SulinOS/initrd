@@ -2,7 +2,7 @@ add_extra_module(){
     while read line
     do
         name=$(basename $line)
-        debug "Install: $name"
+        debug "Install" "$name"
         mkdir -p ${WORKDIR}/$line
         rmdir ${WORKDIR}/$line
         cat $line > ${WORKDIR}/$line

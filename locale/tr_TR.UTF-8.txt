@@ -1,0 +1,53 @@
+Creating workdir::Çalışma dizini oluşturuluyor
+Merging with overlay::Overlay ile birleştiriliyor
+Install modules::Yüklenen modül
+Clearing workdir::Çalışma dizini temizleniyor
+Keeping workdir::Çalışma dizini korunuyor
+Install main modules::Ana modüller yükleniyor
+Install drivers::Sürücüler yükleniyor
+Module directory not found::Modül dizini bulunamadı
+Kernel Version::Çekirdek Sürümü
+Module Directory::Modül Dizini
+Install::Yükleniyor
+glibc will not install::glbc yüklenmeyecek
+fsck will not install::fsck yüklenmeyecek
+Install busybox::Busybox yükleniyor
+Busybox is not a static binary::Busybox statik bir ikili değil
+Busybox not found::Busybox bulunamadı
+Using config::Kullanılan yapılandırma
+Building::İnşa ediliyor
+Generating::Oluşturuluyor
+Generating fallback::Yedek oluşturuluyor
+
+Starting::Baslatiliyor
+Listing kernel modules::Cekirdek modulleri listeleniyor
+Trying to load kernel modules::Cekirdek modullerini yuklenmeye calisiyor
+Running::Calisiyor
+fsck not found::fsck bulunamadi
+Trying to connect network::Aga baglantisi kurulmaya calisiliniyor
+Found network device::Bulunan ag aygiti
+Moving mountpoints::Baglama noktasi tasiniyor
+Creating overlayfs::Overlayfs olusturuluyor
+Looking for::Sunun icin bakiliyor
+Detected live media::Tespit edilen canli ortam
+Mounting live media::Canli ortam baglaniyor
+Mounting freeze media::Donmuş ortam baglaniyor
+Mounting rootfs::Kok dizin baglaniyor
+Creating tmpfs for /::/ icin tmpfs olusturuluyor
+Creating binds::Baglar olusturuluyor
+Binding::Baglanıyor
+Booting from live-media::Canli ortamdan baslatiliyor
+Booting from::Suradan baslatiliyor
+Starting overlay scripts::Overlay betikleri baslatiliyor
+Wellcome to::Hosgeldiniz
+Running local initrd scripts::Yerel acilis betikleri calistiriliyor
+Switching root::Kok degistiriliyor
+Creating initrd::Initrd olusturuluyor
+Mount handler running::Baglama islemleri calisiyor
+UEFI mode detected::UEFI modu tespit edildi
+Booting dead. Now you are in initial ramdisk.::Acilis nallari dikti. Simdi baslangıc ramdiski icindesin.
+Detecting real root::Gercek kok tespit ediliyor
+No root device specified.::Hicbir kok blirlenmedi.
+Where is the root::Kok nerde amk
+Setting root::Kok ayarlaniyor
+is not a block device::bir blok algit değil

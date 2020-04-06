@@ -15,6 +15,8 @@ General option list:
   -n / --no-color  Disable colorized output.
   -c / --no-cpio   Do not generate initrd image.
   -f / --fallback  Generate fallback initrd image.
+  -g / --no-glibc  Do not install glibc module. (Disable dinamic library support.)
+  -s / --no-fsck   Do not install fsck module.
 EOF
 }
 
@@ -32,7 +34,9 @@ parse_args(){
 	export OUTPUT=/boot/initrd.img-$(uname -r)
 	export nocolor=false
 	export keepworkdir=false
-	export debug=false
+	export skipglibc=false
+	export skipfsck=false
+	export LANGDIR=/lib/initrd/locale
 	for i in $*
 	do
 		if [ "$i" == "-h" ] || [ "$i" == "--help" ] ; then
@@ -42,6 +46,10 @@ parse_args(){
 			debug=true
 		elif [ "$i" == "-k" ] || [ "$i" == "--keep" ] ; then
 			keepworkdir=true
+		elif [ "$i" == "-g" ] || [ "$i" == "--no-glibc" ] ; then
+			skipglibc=true
+		elif [ "$i" == "-s" ] || [ "$i" == "--no-fsck" ] ; then
+			skipfsck=true
 		elif [ "$i" == "-n" ] || [ "$i" == "--no-color" ] ; then
 			export nocolor=true
 		elif [ "$i" == "-c" ] || [ "$i" == "--no-cpio" ] ; then
@@ -49,12 +57,12 @@ parse_args(){
 		elif [ "$i" == "-f" ] || [ "$i" == "--fallback" ] ; then
 			fallback=true
 		else
-			export $i
+			export $i 2>/dev/null || true
 	fi
 	done
 }
 generate_workdir(){
-	msg "Creating workdir $WORKDIR"
+	msg "Creating workdir" "$WORKDIR"
 	rm -f $WORKDIR
 	mkdir -p $WORKDIR
 	cp -prf $src/scripts $WORKDIR/scripts
@@ -64,24 +72,26 @@ generate_workdir(){
 	done
 	msg "Merging with overlay"
 	cp -prf $src/overlay/* $WORKDIR
+	mkdir $WORKDIR/locale
+	cp -prf $src/locale/* $WORKDIR/locale
 }
 modules_install(){
 	for i in $(ls $src/addons | sort)
 	do
-		inf "Install modules: $i"
+		inf "Install modules" "$i"
 		. $src/addons/$i 
 	done
 }
 
 generate_cpio(){
-	msg "Build: $OUTPUT "
+	msg "Building" "$OUTPUT "
 	cd $WORKDIR
 	if [ "$nocpio" != "true" ] ; then
-		echo -ne " ${C_GREEN}*${C_CLEAR} Generating: "
+		echo -ne " ${C_GREEN}*${C_CLEAR} $(translate 'Generating') "
 		find . | cpio -R root:root -H newc -o | gzip > $OUTPUT
 	fi
 	if [ "$fallback" == "true" ] ; then
-		echo -ne " ${C_GREEN}*${C_CLEAR} Generating fallback: "
+		echo -ne " ${C_GREEN}*${C_CLEAR} $(translate 'Generating fallback') "
 		find . | cpio -R root:root -H newc -o | gzip > $OUTPUT-fallback
 	fi
 }
@@ -89,8 +99,8 @@ generate_cpio(){
 clean_directory(){
 	if [ "$keepworkdir" != "true" ] ; then
 		rm -rf $WORKDIR
-		msg "Clearing workdir."
+		msg "Clearing workdir"
 	else
-		inf "Keeping workdir: $WORKDIR"
+		inf "Keeping workdir" "$WORKDIR"
 	fi
 }

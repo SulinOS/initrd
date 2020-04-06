@@ -9,19 +9,38 @@ if [ -t 0 ] && [ "$nocolor" != "true" ] ;then
     C_WHITE='\e[1;37m'
     C_CLEAR='\e[m'
 fi
+[ "$LANG" == "" ] && LANG="C"
+LANGFILE=${LANGDIR}/$(echo $LANG).txt
 msg() {
-    echo -e " ${C_GREEN}*${C_CLEAR} ${@}"
+    message=$(translate $1)
+    echo -e " ${C_GREEN}*${C_CLEAR} $message $2"
 }
 
 inf() {
-    echo -e " ${C_CYAN}*${C_CLEAR} ${@}"
+    message=$(translate $1)
+    echo -e " ${C_CYAN}*${C_CLEAR} $message $2"
 }
 debug() {
-    [ ! -n "$debug"  ] || echo -e " ${C_BLUE}*${C_CLEAR} ${@}"
+    message=$(translate $1)
+    [ ! -n "$debug"  ] || echo -e " ${C_BLUE}*${C_CLEAR} $message $2"
 }
 warn() {
-    echo -e " ${C_YELLOW}*${C_CLEAR} ${@}"
+    message=$(translate $1)
+    echo -e " ${C_YELLOW}*${C_CLEAR} $message $2"
 }
 err() {
-    echo -e " ${C_RED}*${C_CLEAR} ${@}"
+    message=$(translate $1)
+    echo -e " ${C_RED}*${C_CLEAR} $message $2"
+}
+translate(){
+    if [ ! -f ${LANGFILE} ] ; then
+        echo $* 
+        return 0
+    fi
+    word=$(cat ${LANGFILE} | grep "$*::" | head -n 1 | sed "s/^.*:://g")
+    if [ "$word" == "" ] ; then
+        echo -n "$*"
+    else
+        echo -n "$word"
+    fi
 }

@@ -1,18 +1,18 @@
 #!/busybox sh
 generate_rootfs(){
-	msg "Creating initrd"
 	/busybox mkdir /bin
 	/busybox mkdir /sys
 	/busybox mkdir /proc
 	/busybox mkdir /tmp
 	/busybox mkdir /run
 	/busybox --install -s /bin
+	msg 'Creating initrd'
 	/busybox mdev -s 2>/dev/null
 }
 run_modules(){
 	for i in $(ls /scripts | sort)
 	do
-		debug "Running $i"
+		debug "Running" "$i"
 		. /scripts/$i || true
 	done
 }
@@ -24,9 +24,10 @@ mount_handler(){
 	/busybox mount -t tmpfs tmpfs /tmp  || true
 	/busybox mount -t tmpfs tmpfs /run  || true
 	if [ -e /sys/firmware/efi ]; then
-		inf "UEFI mode detected."
+		inf "UEFI mode detected"
 		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec
 	fi
+        export memtotal=$(cat /proc/meminfo | grep MemTotal | sed "s/.*  //" | sed "s/ .*//g")
 }
 parse_cmdline(){
 	for i in $(cat /proc/cmdline)
@@ -76,19 +77,20 @@ detect_root(){
 		LABEL=*) eval $root; device="/dev/disk/by-label/$LABEL" ;;
 		""     ) [ "$boot" == "live" ] && return 0
 			 err "No root device specified." 
-			 echo -ne "\033[33;1m * Where is the root > \033[;0m"
+			 echo -ne "\033[33;1m * $(translate 'Where is the root') > \033[;0m"
 			 while read root
 			 do
-			 	if [ -b $root ] ; then
-			 		inf "Setting root $root"
+			 	if [ -b $root ] && [ "$root" != "" ] ; then
+			 		inf "Setting root" "$root"
 			 		return 0
 			 	else
-			 		warn "\"$root\" is not a block device."
- 					 echo -ne "\033[33;1m * Where is the root>\033[;0m"
+			 		warn "\"$root\" $(translate 'is not a block device')"
+ 					echo -ne "\033[33;1m * $(translate 'Where is the root') > \033[;0m"
  				fi
 			 done ;;
 	esac
 	export root
+	export ro
 	export rootfstype
 	export init
 }
