@@ -14,6 +14,13 @@ overlay_mount(){
 	mkdir -p /rootfs/
 	umount /root/a 2>/dev/null
 	umount /root/b 2>/dev/null
+	if [ "$overlay" == "disable" ]; then
+		warn "Overlayfs disabled"
+		mount -t tmpfs -o size=100% none /rootfs
+		inf "Please wait. Reading rootfs..."
+		cp -prf /source/* /rootfs
+		return 0
+	fi
 	debug "Creating overlayfs"
 	mount -t overlay -o lowerdir=/source/,upperdir=/root/a,workdir=/root/b overlay /rootfs
 	if [ "$overlay" == "zram" ]; then

@@ -51,3 +51,6 @@ No root device specified.::Hicbir kok blirlenmedi.
 Where is the root::Kok nerde amk
 Setting root::Kok ayarlaniyor
 is not a block device::bir blok algit değil
+Overlayfs disabled::Overlayfs kapali
+Please wait. Reading rootfs...::Lütfen bekleyin. Rootfs okunuyor...
+
