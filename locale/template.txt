@@ -1,0 +1,53 @@
+Creating workdir::
+Merging with overlay::
+Install modules::
+Clearing workdir::
+Keeping workdir::
+Install main modules::
+Install drivers::
+Module directory not found::
+Kernel Version::
+Module Directory::
+Install::
+glibc will not install::
+fsck will not install::
+Install busybox::
+Busybox is not a static binary::
+Busybox not found::
+Using config::
+Building::
+Generating::
+Generating fallback::
+
+Starting::
+Listing kernel modules::
+Trying to load kernel modules::
+Running::
+fsck not found::
+Trying to connect network::
+Found network device::
+Moving mountpoints::
+Creating overlayfs::
+Looking for::
+Detected live media::
+Mounting live media::
+Mounting freeze media::
+Mounting rootfs::
+Creating tmpfs for /::
+Creating binds::
+Binding::
+Booting from live-media::
+Booting from::
+Starting overlay scripts::
+Wellcome to::
+Running local initrd scripts::
+Switching root::
+Creating initrd::
+Mount handler running::
+UEFI mode detected::
+Booting dead. Now you are in initial ramdisk.::
+Detecting real root::
+No root device specified.::
+Where is the root::
+Setting root::
+is not a block device::

@@ -18,4 +18,5 @@ debug "Switching root"
 exec env -i \
 	"TERM=$TERM" \
 	"LANG=$LANG"\
+	"LC_ALL=$LANG"\
 	switch_root "/rootfs/$subdir" $init "$@" || fallback_shell

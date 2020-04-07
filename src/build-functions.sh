@@ -1,23 +1,10 @@
 . /lib/initrd/common.sh
 help_msg(){
-cat <<    EOF
-Usage $(basename $0) [OPTIONS]
-Targeting options list:
-  OUPTUP           Target initrd file output location. 
-  WORKDIR          Working directory. Created by mktemp command.
-  KERNELVER        Target kernel version. Default is current kernel.
-  MODDIR           Target module director. Default is current module directory.
-  CONFIG           Used config file location. Default is /etc/initrd.conf
-General option list:
-  -d / --debug     Print debug log.
-  -k / --keep      Do not remove working directory after building.
-  -h / --help      Print this message.
-  -n / --no-color  Disable colorized output.
-  -c / --no-cpio   Do not generate initrd image.
-  -f / --fallback  Generate fallback initrd image.
-  -g / --no-glibc  Do not install glibc module. (Disable dinamic library support.)
-  -s / --no-fsck   Do not install fsck module.
-EOF
+	if [ -f /lib/initrd/locale/helpmsg/$LANG.txt ] ; then
+		cat /lib/initrd/locale/helpmsg/$LANG.txt
+	else
+		cat /lib/initrd/locale/helpmsg/default.txt
+	fi
 }
 
 get_module_with_dep(){
