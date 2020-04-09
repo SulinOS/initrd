@@ -5,7 +5,7 @@ fi
 mkdir -p ${WORKDIR}/lib 2>/dev/null || true
 mkdir -p ${WORKDIR}/xbin 2>/dev/null || true
 msg "Install" "glibc"
-for i in #libtinfo.so.5 libdl.so.2 libc.so.6 ld-linux-x86-64.so.2
+for i in libdl.so.2 libc.so.6 ld-linux-x86-64.so.2
 do
 	[ -f /lib/$i ] && LIBDIR=/lib
 	[ -f /lib64/$i ] && LIBDIR=/lib64
