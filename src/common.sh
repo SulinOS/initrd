@@ -22,7 +22,7 @@ inf() {
 }
 debug() {
     message=$(translate $1)
-    [ ! -n "$debug"  ] || echo -e " ${C_BLUE}*${C_CLEAR} $message $2"
+    [ "$debug" != "true" ] || echo -e " ${C_BLUE}*${C_CLEAR} $message $2"
 }
 warn() {
     message=$(translate $1)

@@ -2,11 +2,11 @@
 
 common_boot(){
 	debug "Moving mountpoints"
-	mount --move /sys /rootfs/sys
-	mount --move /proc /rootfs/proc
-	mount --move /dev /rootfs/dev
-	mount --move /tmp /rootfs/tmp
-	mount --move /run /rootfs/run
+	for i in sys proc dev tmp run
+	do
+		mkdir /rootfs/$i || true 2>/dev/null
+		mount --move /$i /rootfs/$i
+	done
 }
 overlay_mount(){
 	mkdir -p /root/a # upper
@@ -37,17 +37,23 @@ overlay_mount(){
 }
 live_boot(){
 	[ "$sfs" == "" ] && sfs="/main.sfs"
-	list=$(ls /sys/class/block/ | grep ".*[0-9]$" | grep -v loop | grep -v ram | grep -v nbd | sed "s|^|/dev/|g")
-	for part in $list
-	do
-		debug "Looking for" "$part"
-		if is_file_avaiable "$part" "${sfs}"
-		then
-			debug "Detected live media" "$part"
-			export root=$part
-		fi
+	if [ "$root" == "" ] ; then
+		list=$(ls /sys/class/block/ | grep ".*[0-9]$" | grep -v loop | grep -v ram | grep -v nbd | sed "s|^|/dev/|g")
+		for part in $list
+		do
+			debug "Looking for" "$part"
+			if is_file_avaiable "$part" "${sfs}"
+			then
+				debug "Detected live media" "$part"
+				export root=$part
+			fi
 		done
+	else
+		msg "Force setting root" "$root"
+	fi
 	debug "Mounting live media"
+	mkdir /output
+	mkdir /source
 	mount -t auto $root /output
 	mount /output/${sfs} /source
 	overlay_mount
@@ -92,15 +98,15 @@ classic_boot(){
 }
 
 if [ "$boot" == "live" ]; then
-	msg "Booting from live-media" "($root)"
 	live_boot || fallback_shell
+	msg "Booting from live-media" "($root)"
 elif [ "$boot" == "normal" ]; then
-	msg "Booting from" "$root"
 	normal_boot || fallback_shell
+	msg "Booting from" "$root"
 elif [ "$boot" == "freeze" ]; then
-	msg "Booting from" "$root (freeze)"
 	freeze_boot || fallback_shell
+	msg "Booting from" "$root (freeze)"
 else
-	msg "Booting from" "$root (classic)"
 	classic_boot || fallback_shell
+	msg "Booting from" "$root (classic)"
 fi

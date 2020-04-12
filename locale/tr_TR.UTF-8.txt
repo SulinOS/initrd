@@ -45,7 +45,7 @@ Switching root::Kok degistiriliyor
 Creating initrd::Initrd olusturuluyor
 Mount handler running::Baglama islemleri calisiyor
 UEFI mode detected::UEFI modu tespit edildi
-Booting dead. Now you are in initial ramdisk.::Acilis nallari dikti. Simdi baslangıc ramdiski icindesin.
+Booting dead. Now you are in initial ramdisk.::Acilis nallari dikti. Simdi baslangic ramdiski icindesin.
 Detecting real root::Gercek kok tespit ediliyor
 No root device specified.::Hicbir kok belirlenmedi.
 Where is the root::Kok nerde amk
@@ -53,4 +53,5 @@ Setting root::Kok ayarlaniyor
 is not a block device::bir blok algit değil
 Overlayfs disabled::Overlayfs kapali
 Please wait. Reading rootfs...::Lütfen bekleyin. Rootfs okunuyor...
-
+Checking init::Init kontrol ediliyor
+Force setting root::Kok zorla ayarlaniyor

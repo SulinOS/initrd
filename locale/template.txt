@@ -51,3 +51,5 @@ No root device specified.::
 Where is the root::
 Setting root::
 is not a block device::
+Checking init::
+Force setting root::

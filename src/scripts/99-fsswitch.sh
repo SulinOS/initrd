@@ -14,6 +14,8 @@ if [ -f /rootfs/$subdir/etc/initrd.local ]; then
     inf "Running local initrd scripts"
     . /rootfs/$subdir/etc/initrd.local || true
 fi
+msg "Checking init"
+[ -f "/rootfs/$subdir/$init" ] || fallback_shell
 debug "Switching root"
 exec env -i \
 	"TERM=$TERM" \

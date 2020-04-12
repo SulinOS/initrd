@@ -94,3 +94,4 @@ detect_root(){
 	export rootfstype
 	export init
 }
+
