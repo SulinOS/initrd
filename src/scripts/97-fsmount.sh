@@ -4,7 +4,7 @@ common_boot(){
 	debug "Moving mountpoints"
 	for i in sys proc dev tmp run
 	do
-		mkdir /rootfs/$i || true 2>/dev/null
+		mkdir /rootfs/$i 2>/dev/null || true
 		mount --move /$i /rootfs/$i
 	done
 }
