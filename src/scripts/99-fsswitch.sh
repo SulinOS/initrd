@@ -9,7 +9,6 @@ if [ -f /rootfs/$subdir/etc/os-release ]; then
 else
 	msg "Wellcome to" "${C_PURPLE}GNU/Linux...${C_CLEAR}"
 fi
-sleep 2
 if [ -f /rootfs/$subdir/etc/initrd.local ]; then
     inf "Running local initrd scripts"
     . /rootfs/$subdir/etc/initrd.local || true

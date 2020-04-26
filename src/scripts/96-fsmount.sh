@@ -25,7 +25,7 @@ overlay_mount(){
 	mount -t overlay -o lowerdir=/source/,upperdir=/root/a,workdir=/root/b overlay /rootfs
 	if [ "$overlay" == "zram" ]; then
 		modprobe zram num_devices=1 2>/dev/null || true
-		echo $(($memtotal)) > /sys/block/zram0/disksize
+		echo $memtotal > /sys/block/zram0/disksize
 		sh
 		mkfs.ext2 /dev/zram0
 		mount -t auto /dev/zram0 /root/a
@@ -33,6 +33,22 @@ overlay_mount(){
 	else
 		mount -t tmpfs -o size=100% none /root/b
 		mount -t tmpfs -o size=100% none /root/a
+	fi
+}
+live_config(){
+	if [ -f /rootfs/$subdir/sbin/openrc-run ] ; then
+		if [ "${live.user}" != "" ] ; then
+			chroot /rootfs/$subdir/ useradd "$live_user" || true
+		fi
+		if [ "${live.keyboard}" != "" ] ; then
+			echo "keymap=\"${live.keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
+		fi
+		if [ "${live.locale}" != "" ] ; then
+			export LANG=${live.locale}
+			export LC_ALL=${live.locale}
+		fi
+	else
+		warn "Live config cannot works without openrc"
 	fi
 }
 live_boot(){
@@ -58,6 +74,7 @@ live_boot(){
 	mount /output/${sfs} /source
 	overlay_mount
 	[ -d /output/merge ] && cp -prfv /output/merge/* /rootfs/
+	live_config
 	common_boot || fallback_shell
 }
 freeze_boot(){
