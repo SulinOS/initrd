@@ -37,15 +37,17 @@ overlay_mount(){
 }
 live_config(){
 	if [ -f /rootfs/$subdir/sbin/openrc-run ] ; then
-		if [ "${live.user}" != "" ] ; then
-			chroot /rootfs/$subdir/ useradd "$live_user" || true
+		if [ "${live_user}" != "" ] ; then
+			chroot /rootfs/$subdir/ useradd "${live_user}" || true
+		else
+			chroot /rootfs/$subdir/ useradd "sulin" || true
 		fi
-		if [ "${live.keyboard}" != "" ] ; then
-			echo "keymap=\"${live.keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
+		if [ "${live_keyboard}" != "" ] ; then
+			echo "keymap=\"${live_keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
 		fi
-		if [ "${live.locale}" != "" ] ; then
-			export LANG=${live.locale}
-			export LC_ALL=${live.locale}
+		if [ "${live_locale}" != "" ] ; then
+			export LANG=${live_locale}
+			export LC_ALL=${live_locale}
 		fi
 	else
 		warn "Live config cannot works without openrc"

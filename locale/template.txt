@@ -42,6 +42,7 @@ Starting overlay scripts::
 Wellcome to::
 Running local initrd scripts::
 Switching root::
+Waiting for kernel modules::
 Creating initrd::
 Mount handler running::
 UEFI mode detected::

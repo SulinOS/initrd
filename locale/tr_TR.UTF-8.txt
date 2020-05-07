@@ -42,6 +42,7 @@ Starting overlay scripts::Overlay betikleri baslatiliyor
 Wellcome to::Hosgeldiniz
 Running local initrd scripts::Yerel acilis betikleri calistiriliyor
 Switching root::Kok degistiriliyor
+Waiting for kernel modules::Cekirdek modulleri icin bekleniyor
 Creating initrd::Initrd olusturuluyor
 Mount handler running::Baglama islemleri calisiyor
 UEFI mode detected::UEFI modu tespit edildi
