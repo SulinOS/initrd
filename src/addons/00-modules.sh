@@ -12,3 +12,7 @@ debug "Install drivers"
 cp -prf ${MODDIR}/kernel/drivers/{block,ata,md,firewire} ${WORKDIR}/${MODDIR}
 cp -prf ${MODDIR}/kernel/drivers/{scsi,pcmcia,virtio} ${WORKDIR}/${MODDIR}
 cp -prf ${MODDIR}/kernel/drivers/usb/{host,storage} ${WORKDIR}/${MODDIR}
+if [ "$debug" != "true" ] ; then
+	debug "Remove debug drivers"
+	find ${WORKDIR}/${MODDIR} | grep debug | xargs rm -rf
+fi

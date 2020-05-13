@@ -75,11 +75,11 @@ generate_cpio(){
 	cd $WORKDIR
 	if [ "$nocpio" != "true" ] ; then
 		echo -ne " ${C_GREEN}*${C_CLEAR} $(translate 'Generating') "
-		find . | cpio -R root:root -H newc -o | gzip > $OUTPUT
+		find . | cpio -R root:root -H newc -o | ${CPIO_COMPRESS} > $OUTPUT
 	fi
 	if [ "$fallback" == "true" ] ; then
 		echo -ne " ${C_GREEN}*${C_CLEAR} $(translate 'Generating fallback') "
-		find . | cpio -R root:root -H newc -o | gzip > $OUTPUT-fallback
+		find . | cpio -R root:root -H newc -o | ${CPIO_COMPRESS} > $OUTPUT-fallback
 	fi
 }
 
