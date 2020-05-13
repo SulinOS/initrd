@@ -9,7 +9,15 @@ if [ -t 0 ] && [ "$nocolor" != "true" ] ;then
     C_WHITE='\e[1;37m'
     C_CLEAR='\e[m'
 fi
-[ "$LANG" == "" ] && LANG="C"
+if [ "$LANG" == "" ] ; then
+	if [ -f /proc/cmdline ] ; then
+		LANG=$(cat /proc/cmdline | sed "s/ /\n/g" | grep LANG | sed "s/^LANG=//g")
+		[ "$LANG" == "" ] && LANG="C"
+	else
+		LANG="C"
+	fi
+fi
+echo $LANG
 [ "${CPIO_COMPRESS}" == "" ] && CPIO_COMPRESS=cat
 LANGFILE=${LANGDIR}/$(echo $LANG).txt
 msg() {
