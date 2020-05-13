@@ -17,7 +17,6 @@ if [ "$LANG" == "" ] ; then
 		LANG="C"
 	fi
 fi
-echo $LANG
 [ "${CPIO_COMPRESS}" == "" ] && CPIO_COMPRESS=cat
 LANGFILE=${LANGDIR}/$(echo $LANG).txt
 msg() {
