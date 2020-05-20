@@ -7,5 +7,5 @@ install:
 	cp -prfv locale/* $(DESTDIR)/lib/initrd/locale
 	cp -prfv locale/helpmsg/* $(DESTDIR)/lib/initrd/locale/helpmsg
 	[ -f $(DESTDIR)/bin/update-initrd ] && rm -f $(DESTDIR)/bin/update-initrd || true
-	ln -s $(DESTDIR)/lib/initrd/build.sh $(DESTDIR)/bin/update-initrd
+	ln -s /lib/initrd/build.sh $(DESTDIR)/bin/update-initrd
 	chmod +x $(DESTDIR)/lib/initrd/build.sh
