@@ -1,7 +1,6 @@
 install:
 	[ -d $(DESTDIR)/lib/initrd/ ] && rm -rf $(DESTDIR)/lib/initrd/ || true
-	mkdir -p $(DESTDIR)/lib/initrd/
-	mkdir -p $(DESTDIR)/lib/initrd/locale
+	mkdir -p $(DESTDIR)/bin
 	mkdir -p $(DESTDIR)/lib/initrd/locale/helpmsg
 	cp -prfv src/* $(DESTDIR)/lib/initrd/
 	cp -prfv locale/* $(DESTDIR)/lib/initrd/locale
