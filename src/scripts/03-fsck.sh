@@ -4,7 +4,7 @@ if [ -f /xbin/fsck ] ; then
 	inf "Running" "fsck"
 	touch /etc/mtab
 	touch /etc/fstab
-	/xbin/fsck.$rootfstype -f -y "$root" || true
+	/xbin/fsck.$rootfstype "$root" &>/dev/null
 else
 	warn "fsck not found"
 fi
