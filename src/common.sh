@@ -12,9 +12,9 @@ fi
 if [ "$LANG" == "" ] ; then
 	if [ -f /proc/cmdline ] ; then
 		LANG=$(cat /proc/cmdline | sed "s/ /\n/g" | grep LANG | sed "s/^LANG=//g")
-		[ "$LANG" == "" ] && LANG="C"
+		[ "$LANG" == "" ] && LANG="en_US.UTF-8"
 	else
-		LANG="C"
+		LANG="en_US.UTF-8"
 	fi
 fi
 [ "${CPIO_COMPRESS}" == "" ] && CPIO_COMPRESS=cat

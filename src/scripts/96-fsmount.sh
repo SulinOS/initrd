@@ -37,14 +37,19 @@ overlay_mount(){
 }
 live_config(){
 	if [ -f /rootfs/$subdir/sbin/openrc-run ] ; then
-		if [ "${live_user}" != "" ] ; then
-			chroot /rootfs/$subdir/ useradd "${live_user}" || true
-		else
-			chroot /rootfs/$subdir/ useradd "sulin" || true
+		if [ "${live_user}" == "" ] ; then
+			export live_user="user"
 		fi
-		if [ "${live_keyboard}" != "" ] ; then
-			echo "keymap=\"${live_keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
+		if [ "${live_pass}" == "" ] ; then
+			export live_pass="live"
 		fi
+		if [ "${live_hostname}" == "" ] ; then
+			export live_hostname="SulinOS"
+		fi
+		chroot /rootfs/$subdir/ sh -c "useradd ${live_user}" || true
+		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd ${live_user}" || true
+		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd" || true
+		echo ${live_hostname} > /rootfs/$subdir/etc/hostname
 		if [ "${live_locale}" != "" ] ; then
 			export LANG=${live_locale}
 			export LC_ALL=${live_locale}
