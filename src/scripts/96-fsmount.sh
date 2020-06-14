@@ -54,6 +54,9 @@ live_config(){
 			export LANG=${live_locale}
 			export LC_ALL=${live_locale}
 		fi
+		if [ "${live_keymap}" != "" ] ; then
+			echo -e "keymap=\"${live_keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
+		fi
 	else
 		warn "Live config cannot works without openrc"
 	fi

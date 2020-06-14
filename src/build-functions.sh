@@ -18,7 +18,6 @@ get_module_with_dep(){
 parse_args(){
 	export src=/lib/initrd/
 	export WORKDIR=$(mktemp)
-	export OUTPUT=/boot/initrd.img-$(uname -r)
 	export nocolor=false
 	export keepworkdir=false
 	export skipglibc=false

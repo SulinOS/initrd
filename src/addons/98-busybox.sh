@@ -1,6 +1,8 @@
 bb=$(which busybox)
 if [ -f "$bb" ] ; then
-	if LANG="C" ldd $bb | grep "not a dynamic executable" >/dev/null ; then
+	set +e
+        bbdyn=$(LANG="C" ldd $bb | grep "not a dynamic executable" 2>&1 )
+	if [ $? -ne 0 ] || [ "$bbdyn" != "" ] ; then
 		debug "Install busybox" "$bb"
 		install $bb $WORKDIR/busybox >/dev/null
 	elif [ "$skipglibc" != "true" ] ; then
@@ -9,6 +11,7 @@ if [ -f "$bb" ] ; then
 	else
 		copy_binary busybox
 	fi
+	set -e
 else
 	err "Busybox not found"
 	exit 1
