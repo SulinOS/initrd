@@ -1,5 +1,5 @@
 #!/bin/bash
-[ ! -n "$KERNELVER"  ] && KERNELVER=$(uname -r)
+[ "" == "$KERNELVER"  ] && KERNELVER=$(uname -r)
 [ ! -n "$MODDIR"  ] && MODDIR=/lib/modules/${KERNELVER}
 [ ! -n "$OUTPUT"  ] && OUTPUT=/boot/initrd.img-${KERNELVER}
 [ -d $MODDIR ] || err "Module directory not found" "-> $MODDIR"

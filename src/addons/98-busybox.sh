@@ -1,4 +1,9 @@
-bb=$(which busybox)
+if [ -f "/lib/initrd/busybox" ] ; then
+	bb="/lib/initrd/busybox"
+else
+	bb="$(which busybox)"
+fi
+msg "$bb"
 if [ -f "$bb" ] ; then
 	set +e
         bbdyn=$(LANG="C" ldd $bb | grep "not a dynamic executable" 2>&1 )
