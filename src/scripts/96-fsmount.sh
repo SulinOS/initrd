@@ -80,10 +80,10 @@ live_boot(){
 	debug "Mounting live media"
 	mkdir /output
 	mkdir /source
-	mount -t auto $root /output
-	mount /output/${sfs} /source
+	mount -t auto $root /output || fallback_shell
+	mount /output/${sfs} /source || fallback_shell
 	overlay_mount
-	[ -d /output/merge ] && cp -prfv /output/merge/* /rootfs/
+	[ -d /output/merge ] && cp -prf /output/merge/* /rootfs/ &>/dev/null
 	live_config
 	common_boot || fallback_shell
 }
