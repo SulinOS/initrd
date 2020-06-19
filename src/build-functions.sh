@@ -22,6 +22,8 @@ parse_args(){
 	export keepworkdir=false
 	export skipglibc=false
 	export skipfsck=false
+	export skipudev=false
+	export allmodule=false
 	export LANGDIR=/lib/initrd/locale
 	for i in $*
 	do
@@ -36,12 +38,16 @@ parse_args(){
 			skipglibc=true
 		elif [ "$i" == "-s" ] || [ "$i" == "--no-fsck" ] ; then
 			skipfsck=true
+		elif [ "$i" == "-u" ] || [ "$i" == "--no-udev" ] ; then
+			export skipudev=true
 		elif [ "$i" == "-n" ] || [ "$i" == "--no-color" ] ; then
 			export nocolor=true
 		elif [ "$i" == "-c" ] || [ "$i" == "--no-cpio" ] ; then
 			export nocpio=true
 		elif [ "$i" == "-f" ] || [ "$i" == "--fallback" ] ; then
 			fallback=true
+		elif [ "$i" == "-a" ] || [ "$i" == "--all-modules" ] ; then
+			allmodule=true
 		else
 			export $i 2>/dev/null || true
 	fi

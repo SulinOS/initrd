@@ -1,16 +1,18 @@
 Kullanım $(basename $0) [SEÇENEKLER]
 Hedefleme seçenekleri listesi:
-  OUPTUP           Hedef initrd dosyası çıktı yolu.
-  WORKDIR          Çalışma dizini. mktepm tarafından oluşturulur.
-  KERNELVER        Hedef çekirdek sürümü. Varsayılan şimdiki çekirdek.
-  MODDIR           Hedef modül dizini. Varsayılan şimdiki modül dizini.
-  CONFIG           Kullanılan ayar yolu. Varsayılan /etc/initrd.conf kullanılır.
+  OUPTUP             Hedef initrd dosyası çıktı yolu.
+  WORKDIR            Çalışma dizini. mktepm tarafından oluşturulur.
+  KERNELVER          Hedef çekirdek sürümü. Varsayılan şimdiki çekirdek.
+  MODDIR             Hedef modül dizini. Varsayılan şimdiki modül dizini.
+  CONFIG             Kullanılan ayar yolu. Varsayılan /etc/initrd.conf kullanılır.
 Genel seçenekler listesi:
-  -d / --debug     Hata ayıklama çıktısı yazdırır.
-  -k / --keep      Derleme sonrası çalışma dizinini temizlemez.
-  -h / --help      Bu mesajı yazdırır.
-  -n / --no-color  Renkli çıktı özelliğini kapatır.
-  -c / --no-cpio   Initrd dosyası oluşturmaz.
-  -f / --fallback  Yedek initrd dosyası oluşturur.
-  -g / --no-glibc  Glibc modülünü kapat. (dinamik ikili desteğini kapatır)
-  -s / --no-fsck   Fsck modülünü kapatır.
+  -d / --debug       Hata ayıklama çıktısı yazdırır.
+  -k / --keep        Derleme sonrası çalışma dizinini temizlemez.
+  -h / --help        Bu mesajı yazdırır.
+  -n / --no-color    Renkli çıktı özelliğini kapatır.
+  -c / --no-cpio     Initrd dosyası oluşturmaz.
+  -f / --fallback    Yedek initrd dosyası oluşturur.
+  -g / --no-glibc    Glibc modülünü kapatır. (dinamik ikili desteğini kapatır)
+  -s / --no-fsck     Fsck modülünü kapatır.
+  -u / --no-udev     Udev modülünü kapatır.
+  -a / --all-module  Tüm modülleri içerir. (udev modülü gerektirir)
