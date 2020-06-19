@@ -1,5 +1,5 @@
 #!/busybox sh
-if [ -x /xbin/udevd -a -x /xbin/udevadm ]; then
+if [ -x /xbin/udevd -a -x /xbin/udevadm ] && [ "$noudev" != "true" ]; then
   msg "Triggering udev"
   /xbin/udevd --daemon
   /xbin/udevadm trigger --action=add
@@ -12,3 +12,6 @@ else
   msg "Waiting for kernel modules"
   sleep 2
 fi
+msg "Loading filesystem drivers"
+ls /lib/modules/*/fs/ | sed "s/^/modprobe /g" | sed "s/$/ &/g" > /fs
+sh /fs &>/dev/null
