@@ -124,9 +124,13 @@ classic_boot(){
 }
 wait_device(){
 msg "Waiting for $device"
-while [ ! -b "$device" ] ; do
+tmp=$(mktemp)
+rm -f $tmp
+mkdir $tmp
+while ! mount -t auto -o defaults,ro $root $tmp ; do
 	sleep 0.1
 done
+umount -lf $tmp
 }
 
 

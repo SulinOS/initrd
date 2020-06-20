@@ -14,8 +14,12 @@ if [ -x /xbin/udevd -a -x /xbin/udevadm ] && [ "$noudev" != "true" ]; then
   vgchange --sysinit --activate y >/dev/null 2>&1
 
 else
+  warn "Eudev not found or disabled"
   debug "Listing kernel modules"
-  find  /lib/modules/ | sed "s/.*\///g" | grep "\.ko" | sed "s/.ko.*/ &/g" | sed "s/^/modprobe /g"> /load_modules.sh
+  cd /lib/modules/*
+  find  crypto lib block ata md firewire scsi \
+     message pcmcia virtio host storage \
+     -type f 2> /dev/null | sed "s/.*\///g" | grep "\.ko" | sed "s/.ko.*/ &/g" | sed "s/^/modprobe /g"> /load_modules.sh
   msg "Trying to load kernel modules"
   sh /load_modules.sh &>/dev/null
 fi
