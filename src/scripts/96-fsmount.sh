@@ -122,17 +122,27 @@ classic_boot(){
 	mount -t auto -o defaults,$ro $root /rootfs
 	common_boot || fallback_shell
 }
+wait_device(){
+msg "Waiting for $device"
+while [ ! -b "$device" ] ; do
+	sleep 0.1
+done
+}
+
 
 if [ "$boot" == "live" ]; then
 	live_boot || fallback_shell
 	msg "Booting from live-media" "($root)"
 elif [ "$boot" == "normal" ]; then
+	wait_device
 	normal_boot || fallback_shell
 	msg "Booting from" "$root"
 elif [ "$boot" == "freeze" ]; then
+	wait_device
 	freeze_boot || fallback_shell
 	msg "Booting from" "$root (freeze)"
 else
+	wait_device
 	classic_boot || fallback_shell
 	msg "Booting from" "$root (classic)"
 fi
