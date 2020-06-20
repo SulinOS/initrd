@@ -20,7 +20,7 @@ if [ "$skipglibc" != "true" ] && [ "$skipudev" != "true" ] ; then
   done
   touch ${WORKDIR}/etc/modprobe.d/modprobe.conf
   #copy binaries
-  copy_binary udevadm udevd
+  copy_binary udevadm udevd tmpfiles vgscan  vschange
 else
 	warn "udev will not install"
 fi

@@ -63,10 +63,11 @@ live_config(){
 }
 live_boot(){
 	[ "$sfs" == "" ] && sfs="/main.sfs"
-	if [ "$root" == "" ] ; then
+	while [ "$root" == "" ] ; do
 		list=$(ls /sys/class/block/ | grep ".*[0-9]$" | grep -v loop | grep -v ram | grep -v nbd | sed "s|^|/dev/|g")
 		for part in $list
 		do
+			sleep 0.1
 			debug "Looking for" "$part"
 			if is_file_avaiable "$part" "${sfs}"
 			then
@@ -74,9 +75,7 @@ live_boot(){
 				export root=$part
 			fi
 		done
-	else
-		msg "Force setting root" "$root"
-	fi
+	done
 	debug "Mounting live media"
 	mkdir /output
 	mkdir /source
