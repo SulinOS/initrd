@@ -15,4 +15,5 @@ General option list:
   -g / --no-glibc    Do not install glibc module. (Disable dinamic library support.)
   -s / --no-fsck     Do not install fsck module.
   -u / --no-udev     Do not install udev module.
-  -a / --all-module  Include all kernel module (udev module needed)
+  -a / --all-module  Include all kernel modules (udev module needed)
+  -m / --full-module Include all kernel drivers (udev module needed)

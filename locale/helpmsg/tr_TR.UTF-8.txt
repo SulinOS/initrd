@@ -16,3 +16,4 @@ Genel seçenekler listesi:
   -s / --no-fsck     Fsck modülünü kapatır.
   -u / --no-udev     Udev modülünü kapatır.
   -a / --all-module  Tüm modülleri içerir. (udev modülü gerektirir)
+  -m / --full-module Tüm sürücüleri içerir (udev modülü gerektirir)

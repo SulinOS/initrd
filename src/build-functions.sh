@@ -24,6 +24,7 @@ parse_args(){
 	export skipfsck=false
 	export skipudev=false
 	export allmodule=false
+	export minimal=true
 	export LANGDIR=/lib/initrd/locale
 	for i in $*
 	do
@@ -47,7 +48,10 @@ parse_args(){
 		elif [ "$i" == "-f" ] || [ "$i" == "--fallback" ] ; then
 			fallback=true
 		elif [ "$i" == "-a" ] || [ "$i" == "--all-modules" ] ; then
+			minimal=false
 			allmodule=true
+		elif [ "$i" == "-m" ] || [ "$i" == "--full-modules" ] ; then
+			minimal=false
 		else
 			export $i 2>/dev/null || true
 	fi

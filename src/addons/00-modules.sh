@@ -9,6 +9,11 @@ debug "Module Directory" "${MODDIR}"
 mkdir -p ${WORKDIR}/${MODDIR}
 if [ "$allmodule" == true ] && [ "$skipglibc" != "true" ] && [ "$skipudev" != "true" ]; then
 	cp -prf ${MODDIR}/* ${WORKDIR}/${MODDIR}
+elif [ "$minimal" == true ]; then
+     cp -prf ${MODDIR}/kernel/{crypto,fs,lib} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/{block,ata,md,firewire} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/{scsi,message,pcmcia,virtio} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/usb/{host,storage} ${WORKDIR}/${MODDIR}
 else
 	debug "Install main modules"
 	cp -prf ${MODDIR}/kernel/{crypto,fs,lib} ${WORKDIR}/${MODDIR}
