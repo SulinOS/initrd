@@ -11,9 +11,10 @@ if [ "$allmodule" == true ] && [ "$skipglibc" != "true" ] && [ "$skipudev" != "t
 	cp -prf ${MODDIR}/* ${WORKDIR}/${MODDIR}
 elif [ "$minimal" == true ]; then
      cp -prf ${MODDIR}/kernel/{crypto,fs,lib} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/input/{keyboard,serio} ${WORKDIR}/${MODDIR}
      cp -prf ${MODDIR}/kernel/drivers/{block,ata,md,firewire} ${WORKDIR}/${MODDIR}
-     cp -prf ${MODDIR}/kernel/drivers/{scsi,message,pcmcia,virtio} ${WORKDIR}/${MODDIR}
-     cp -prf ${MODDIR}/kernel/drivers/usb/{host,storage} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/{scsi,pcmcia,virtio,hid} ${WORKDIR}/${MODDIR}
+     cp -prf ${MODDIR}/kernel/drivers/usb/ ${WORKDIR}/${MODDIR}
 else
 	debug "Install main modules"
 	cp -prf ${MODDIR}/kernel/{crypto,fs,lib} ${WORKDIR}/${MODDIR}

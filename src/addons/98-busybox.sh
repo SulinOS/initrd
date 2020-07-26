@@ -6,7 +6,7 @@ fi
 msg "$bb"
 if [ -f "$bb" ] ; then
 	set +e
-        bbdyn=$(LANG="C" ldd $bb | grep "not a dynamic executable" 2>&1 )
+        bbdyn=$(LANG="C" ldd $bb | grep "not a dynamic executable")
 	if [ $? -ne 0 ] || [ "$bbdyn" != "" ] ; then
 		debug "Install busybox" "$bb"
 		install $bb $WORKDIR/busybox >/dev/null

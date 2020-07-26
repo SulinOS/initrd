@@ -19,7 +19,7 @@ copy_binary(){
 	for bins in $*
 	do
 		if [ "" != "$(which $bins)" ] ; then
-			libs="$(ldd $(which $bins) | grep '=>' | awk '{print $3}')"
+			libs="$(ldd $(which $bins) 2>/dev/null | grep '=>' | awk '{print $3}')"
 			for i in $libs
 			do
 				lib=$(basename $i)
