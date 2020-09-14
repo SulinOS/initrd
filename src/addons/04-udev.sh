@@ -9,14 +9,11 @@ if [ "$skipglibc" != "true" ] && [ "$skipudev" != "true" ] ; then
   if [ -d /lib/udev ]; then
     cp -a /lib/udev ${WORKDIR}/lib
   fi
-  if [ -d /lib/systemd ]; then
-    cp -a /lib/systemd ${WORKDIR}/lib
-  fi
   if [ -f /etc/udev/udev.conf ]; then
    cp /etc/udev/udev.conf ${WORKDIR}/etc/udev/udev.conf
   fi
   for file in $(find /etc/udev/rules.d/ -type f) ; do
-    cp $file $WDIR/etc/udev/rules.d
+    cp $file ${WORKDIR}/etc/udev/rules.d
   done
   touch ${WORKDIR}/etc/modprobe.d/modprobe.conf
   #copy binaries
