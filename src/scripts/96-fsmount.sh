@@ -93,6 +93,13 @@ freeze_boot(){
 	overlay_mount
 	common_boot || fallback_shell
 }
+image_boot(){
+	mkdir -p /source/ # lower
+	debug "Mounting image"
+	mount -t auto -o defaults,ro $root /source
+	mount -t auto -o defaults,ro /source/$image /rootfs
+	common_boot || fallback_shell
+}
 
 normal_boot(){
 	debug "Mounting rootfs"
@@ -144,6 +151,10 @@ elif [ "$boot" == "normal" ]; then
 elif [ "$boot" == "freeze" ]; then
 	wait_device
 	freeze_boot || fallback_shell
+	msg "Booting from" "$root (freeze)"
+elif [ "$boot" == "image" ]; then
+	wait_device
+	image_boot || fallback_shell
 	msg "Booting from" "$root (freeze)"
 else
 	wait_device
