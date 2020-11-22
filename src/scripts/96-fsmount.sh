@@ -95,9 +95,10 @@ freeze_boot(){
 }
 image_boot(){
 	mkdir -p /source/ # lower
+	mkdir -p /rootfs
 	debug "Mounting image"
-	mount -t auto -o defaults,ro $root /source
-	mount -t auto -o defaults,ro /source/$image /rootfs
+	mount -t auto -o defaults,rw $root /source
+	mount -t auto -o loop,rw,sync /source/$image /rootfs
 	common_boot || fallback_shell
 }
 
