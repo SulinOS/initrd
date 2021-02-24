@@ -63,7 +63,7 @@ live_config(){
 }
 live_boot(){
 	[ "${sfs}" == "" ] && sfs="/main.sfs"
-	if [ "${findiso}" =! "" ] ; then
+	if ! [ "${findiso}" == "" ] ; then
 		msg "findiso variable available."
 		sfs2="${sfs}"
 		sfs="${findiso}"
@@ -85,7 +85,8 @@ live_boot(){
 	mkdir /output
 	mkdir /source
 	mount -t auto $root /output || fallback_shell
-	if [ "$findiso" =! "" ] ; then
+	if ! [ "$findiso" == "" ] ; then
+		mkdir -p /iso-source || true
 		mount /output/${sfs} /iso-source || fallback_shell
 		mount /iso-source/${sfs2} /source || fallback_shell
 	else
@@ -142,13 +143,13 @@ classic_boot(){
 }
 wait_device(){
 msg "Waiting for $device"
-tmp=$(mktemp)
-rm -f $tmp
-mkdir $tmp
-while ! mount -t auto -o defaults,ro $root $tmp ; do
-	sleep 0.1
-done
-umount -lf $tmp
+	tmp=$(mktemp)
+	rm -f $tmp
+	mkdir $tmp
+	while ! mount -t auto -o defaults,ro $root $tmp ; do
+		sleep 0.1
+	done
+	umount -lf $tmp
 }
 
 
