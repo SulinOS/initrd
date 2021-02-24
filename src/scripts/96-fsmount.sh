@@ -62,7 +62,12 @@ live_config(){
 	fi
 }
 live_boot(){
-	[ "$sfs" == "" ] && sfs="/main.sfs"
+	[ "${sfs}" == "" ] && sfs="/main.sfs"
+	if [ "${findiso}" =! "" ] ; then
+		msg "findiso variable available."
+		sfs2="${sfs}"
+		sfs="${findiso}"
+	fi
 	while [ "$root" == "" ] ; do
 		list=$(ls /sys/class/block/ | grep ".*[0-9]$" | grep -v loop | grep -v ram | grep -v nbd | sed "s|^|/dev/|g")
 		for part in $list
@@ -80,7 +85,12 @@ live_boot(){
 	mkdir /output
 	mkdir /source
 	mount -t auto $root /output || fallback_shell
-	mount /output/${sfs} /source || fallback_shell
+	if [ "$findiso" =! "" ] ; then
+		mount /output/${sfs} /iso-source || fallback_shell
+		mount /iso-source/${sfs2} /source || fallback_shell
+	else
+		mount /output/${sfs} /source || fallback_shell
+	fi
 	overlay_mount
 	[ -d /output/merge ] && cp -prf /output/merge/* /rootfs/ &>/dev/null
 	live_config
