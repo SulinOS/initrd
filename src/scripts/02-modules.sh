@@ -3,7 +3,7 @@ msg "Loading filesystem drivers"
 ls /lib/modules/*/fs/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
 sh /fs &>/dev/null
 msg "Loading crypto drivers"
-ls /lib/modules/*/crypto/ | sed "s/^/modprobe /g" | sed "s/.ko//g" | sed "s/$/ &/g" > /crypto
+ls /lib/modules/*/crypto/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /crypto
 sh /crypto &>/dev/null
 
 load_modules(){
