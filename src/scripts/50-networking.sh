@@ -1,4 +1,5 @@
 #Thanks for mll: https://github.com/ivandavidov/minimal
+[ ! -n "${initrd-network}" ] || return 0
 msg "Trying to connect network"
 for DEVICE in /sys/class/net/* ; do
 	inf "Network device" $DEVICE
