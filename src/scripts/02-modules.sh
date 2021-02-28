@@ -16,7 +16,7 @@ load_modules(){
   sh /load_modules.sh &>/dev/null
 }
 
-if [ -x /xbin/udevd -a -x /xbin/udevadm ] && [ -n "$noudev" ]; then
+if [ -x /xbin/udevd -a -x /xbin/udevadm ] && [ ! -n "$noudev" ]; then
   msg "Triggering udev"
   mdev -s
   {
