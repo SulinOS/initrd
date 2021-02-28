@@ -1,0 +1,13 @@
+Source: initrd
+Section: utils
+Priority: optional
+Maintainer: Your Name <your.email@example.org>
+Build-Depends: make
+Standards-Version: 4.3.0
+Homepage: https://example.org
+
+Package: initrd
+Architecture: all
+Depends: ${misc:Depends}, libc6, busybox-static
+Description: Initramfs system.
+ SulinOS initramfs system for debian.

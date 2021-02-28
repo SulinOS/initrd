@@ -1,3 +1,7 @@
+DESTDIR=/
+build:
+	: 'Please run make install'
+
 install:
 	[ -d $(DESTDIR)/lib/initrd/ ] && rm -rf $(DESTDIR)/lib/initrd/ || true
 	mkdir -p $(DESTDIR)/bin

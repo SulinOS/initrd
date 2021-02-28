@@ -1,0 +1,6 @@
+#!/bin/bash
+rm -f /var/lib/dpkg/triggers/update-initramfs
+for krnl in $(ls /lib/modules/) ; do
+    echo "Generating initramfs for $krnl"
+    update-initrd KERNELVER=$krnl &>/dev/null
+done
