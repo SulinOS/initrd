@@ -1,6 +1,6 @@
 Kullanım $(basename $0) [SEÇENEKLER]
 Hedefleme seçenekleri listesi:
-  OUPTUP             Hedef initrd dosyası çıktı yolu.
+  OUTPUT             Hedef initrd dosyası çıktı yolu.
   WORKDIR            Çalışma dizini. mktepm tarafından oluşturulur.
   KERNELVER          Hedef çekirdek sürümü. Varsayılan şimdiki çekirdek.
   MODDIR             Hedef modül dizini. Varsayılan şimdiki modül dizini.

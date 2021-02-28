@@ -1,6 +1,6 @@
 Usage $(basename $0) [OPTIONS]
 Targeting options list:
-  OUPTUP             Target initrd file output location. 
+  OUTPUT             Target initrd file output location. 
   WORKDIR            Working directory. Created by mktemp command.
   KERNELVER          Target kernel version. Default is current kernel.
   MODDIR             Target module director. Default is current module directory.
