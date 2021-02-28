@@ -94,7 +94,7 @@ live_boot(){
 	fi
 	overlay_mount
 	[ -d /output/merge ] && cp -prf /output/merge/* /rootfs/ &>/dev/null
-	live_config
+	[ -n "${no-live-config}" ] && live_config
 	common_boot || fallback_shell
 }
 freeze_boot(){
