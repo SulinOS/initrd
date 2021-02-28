@@ -152,7 +152,6 @@ msg "Waiting for $device"
 	umount -lf $tmp
 }
 
-
 if [ "$boot" == "live" ]; then
 	live_boot || fallback_shell
 	msg "Booting from live-media" "($root)"

@@ -60,7 +60,19 @@ parse_args(){
 generate_workdir(){
 	msg "Creating workdir" "$WORKDIR"
 	rm -f $WORKDIR
-	mkdir -p $WORKDIR
+	mkdir -p $WORKDIR/autorun
+	mkdir -p $WORKDIR/lib
+	# Debian support (multiarch not supported)
+	ln -s lib $WORKDIR/lib23
+	ln -s lib $WORKDIR/lib64
+	ln -s ../ $WORKDIR/lib/$(uname -m)-linux-gnu
+	# create fake /usr directory
+	mkdir -p $WORKDIR/usr
+	ln -s ../lib $WORKDIR/usr/lib
+	ln -s ../lib $WORKDIR/usr/lib32
+	ln -s ../lib $WORKDIR/usr/lib64
+	ln -s ../bin $WORKDIR/usr/bin
+	ln -s ../xbin $WORKDIR/usr/xbin
 	cp -prf $src/scripts $WORKDIR/scripts
 	for file in functions vars common init
 	do

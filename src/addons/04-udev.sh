@@ -17,7 +17,10 @@ if [ "$skipglibc" != "true" ] && [ "$skipudev" != "true" ] ; then
   done
   touch ${WORKDIR}/etc/modprobe.d/modprobe.conf
   #copy binaries
-  copy_binary udevadm udevd tmpfiles
+  copy_binary udevadm udevd tmpfiles /lib/systemd/systemd-udevd
+  if [ -f ${WORKDIR}/xbin/systemd-udevd ] && [ ! -f ${WORKDIR}/xbin/udevd ] ; then
+    ln -s systemd-udevd ${WORKDIR}/xbin/udevd
+  fi
 else
 	warn "udev will not install"
 fi

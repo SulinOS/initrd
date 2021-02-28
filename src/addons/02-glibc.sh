@@ -26,9 +26,9 @@ copy_binary(){
 				install $i ${WORKDIR}/lib/$lib || true
 			done
 			msg "Install" "$(which $bins)"
-			install $(which $bins) ${WORKDIR}/xbin/$bins
+			install $(which $bins) ${WORKDIR}/xbin/$(basename $bins)
 		else
-			inf "Not found" "$bins"
+			warn "Not found" "$bins"
 		fi
 	done
 }
