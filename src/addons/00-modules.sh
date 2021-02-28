@@ -27,3 +27,5 @@ else
 		find ${WORKDIR}/${MODDIR} | grep debug | xargs rm -rf
 	fi
 fi
+find  ${WORKDIR}/lib/modules/* | grep ".ko.xz" | xargs xz -d || true
+find  ${WORKDIR}/lib/modules/* | grep ".ko.gz" | xargs gzip -d || true

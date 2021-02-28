@@ -33,3 +33,4 @@ else
   warn "Eudev not found or disabled"
   load_modules
 fi
+/busybox ash
