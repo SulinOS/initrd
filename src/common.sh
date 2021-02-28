@@ -18,6 +18,7 @@ if [ "$LANG" == "" ] ; then
 	fi
 fi
 [ "${CPIO_COMPRESS}" == "" ] && CPIO_COMPRESS=cat
+[ "$CONFIG" != "" ] || CONFIG=/etc/initrd.conf
 LANGFILE=${LANGDIR}/$(echo $LANG).txt
 msg() {
     message=$(translate $1)
