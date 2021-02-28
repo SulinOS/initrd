@@ -12,11 +12,10 @@ elif [ "$minimal" == true ]; then
 	cp -prf ${MODDIR}/kernel/{crypto,fs,lib,block} ${WORKDIR}/${MODDIR}
 	cp -prf ${MODDIR}/kernel/drivers/input/{keyboard,serio} ${WORKDIR}/${MODDIR}
 	cp -prf ${MODDIR}/kernel/drivers/{ata,md,mmc,firewire} ${WORKDIR}/${MODDIR}
-	if [ -d ${MODDIR}/kernel/drivers/block ] ; then 
-		cp -prf ${MODDIR}/kernel/drivers/block/ ${WORKDIR}/${MODDIR}
-	fi
 	cp -prf ${MODDIR}/kernel/drivers/{scsi,pcmcia,virtio} ${WORKDIR}/${MODDIR}
 	cp -prf ${MODDIR}/kernel/drivers/usb/ ${WORKDIR}/${MODDIR}
+	# Some kernels not have this directories.
+	cp -prf ${MODDIR}/kernel/drivers/{block,cdrom}/ ${WORKDIR}/${MODDIR} || true
 else
 	debug "Install main modules"
 	cp -prf ${MODDIR}/kernel/{crypto,fs,lib} ${WORKDIR}/${MODDIR}

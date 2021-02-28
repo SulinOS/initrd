@@ -1,5 +1,5 @@
 #!/busybox sh
-[ -n "$debug" ] || /bushbox ash
+[ -n "$debug" ] && /busybox ash
 msg "Loading filesystem drivers"
 ls /lib/modules/*/fs/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
 sh /fs &>/dev/null
