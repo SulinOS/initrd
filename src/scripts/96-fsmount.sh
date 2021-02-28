@@ -62,6 +62,8 @@ live_config(){
 	fi
 }
 live_boot(){
+	# load loop module
+	modprobe loop ||fallback_shell
 	[ "${sfs}" == "" ] && sfs="/main.sfs"
 	if ! [ "${findiso}" == "" ] ; then
 		msg "findiso variable available."

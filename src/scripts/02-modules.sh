@@ -1,10 +1,10 @@
 #!/busybox sh
 [ -n "$debug" ] && /busybox ash
 msg "Loading filesystem drivers"
-ls /lib/modules/*/fs/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
+find /lib/modules/*/fs/ -type f | sed "s/.*\///g" | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
 sh /fs &>/dev/null
 msg "Loading crypto drivers"
-ls /lib/modules/*/crypto/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /crypto
+find /lib/modules/*/crypto/ -type f | sed "s/.*\///g" | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /crypto
 sh /crypto &>/dev/null
 
 load_modules(){

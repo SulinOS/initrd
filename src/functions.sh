@@ -29,16 +29,12 @@ mount_handler(){
 	fi
         export memtotal=$(cat /proc/meminfo | grep MemTotal | sed "s/.*  //" | sed "s/ .*//g")
 }
-trim_valiable(){
-        echo "$@" | while read -n 1 c ; do
-                [[ "$c" =~ [^a-zA-Z0-9=iI] ]] || echo -n $c
-        done
-}
 parse_cmdline(){
 	for i in $(cat /proc/cmdline)
 	do
-		export $(trim_variable $i) || true
+		echo export $(echo $i | tr -d '.,\!\(\[\{') >> /env
 	done
+	. /env || true
 }
 
 is_file_avaiable(){
