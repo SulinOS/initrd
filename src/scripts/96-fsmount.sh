@@ -151,7 +151,8 @@ msg "Waiting for $device"
 	done
 	umount -lf $tmp
 }
-
+msg "Searching filesystem"
+[ -n "$debug" ] || /bushbox ash
 if [ "$boot" == "live" ]; then
 	live_boot || fallback_shell
 	msg "Booting from live-media" "($root)"

@@ -1,4 +1,5 @@
 #!/busybox sh
+[ -n "$debug" ] || /bushbox ash
 msg "Loading filesystem drivers"
 ls /lib/modules/*/fs/ | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
 sh /fs &>/dev/null
@@ -33,4 +34,3 @@ else
   warn "Eudev not found or disabled"
   load_modules
 fi
-
