@@ -7,6 +7,7 @@ generate_rootfs(){
 	/busybox mkdir /run
 	/busybox --install -s /bin
 	msg 'Creating initrd'
+	/busybox mkdir /dev || true
 	/busybox mdev -s 2>/dev/null
 }
 run_modules(){
