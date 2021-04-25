@@ -1,5 +1,7 @@
 #!/busybox sh
 [ -n "$debug" ] && /busybox ash
+# Disable selinux
+[ -d /sys/fs/selinux ] && echo 0 > /sys/fs/selinux/enforce
 msg "Loading filesystem drivers"
 find /lib/modules/*/fs/ -type f | sed "s/.*\///g" | sed "s/^/modprobe /g" | sed "s/\.ko//g" | sed "s/$/ &/g" > /fs
 sh /fs &>/dev/null
