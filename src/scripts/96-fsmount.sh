@@ -104,8 +104,10 @@ live_boot(){
 freeze_boot(){
 	mkdir -p /source/ # lower
 	debug "Mounting freeze media"
-	mount -t auto -o defaults,ro $root /source
+	mount -t auto -o defaults,rw $root /source
 	overlay_mount
+	[ -d /rootfs/home ] && mount --bind /source/home /rootfs/home
+	[ -d /rootfs/data ] && mount --bind /source/data /rootfs/data
 	common_boot || fallback_shell
 }
 image_boot(){
@@ -171,7 +173,7 @@ elif [ "$boot" == "freeze" ]; then
 elif [ "$boot" == "image" ]; then
 	wait_device
 	image_boot || fallback_shell
-	msg "Booting from" "$root (freeze)"
+	msg "Booting from" "$root (image)"
 else
 	wait_device
 	classic_boot || fallback_shell
