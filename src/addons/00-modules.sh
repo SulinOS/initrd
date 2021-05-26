@@ -14,6 +14,7 @@ elif [ "$minimal" == true ]; then
 	cp -prf ${MODDIR}/kernel/drivers/{ata,md,mmc,firewire} ${WORKDIR}/${MODDIR}
 	cp -prf ${MODDIR}/kernel/drivers/{scsi,pcmcia,virtio} ${WORKDIR}/${MODDIR}
 	cp -prf ${MODDIR}/kernel/drivers/usb/ ${WORKDIR}/${MODDIR}
+	cp -prf ${MODDIR}/kernel/drivers/acpi/ ${WORKDIR}/${MODDIR}
 	# Some kernels not have this directories.
 	cp -prf ${MODDIR}/kernel/drivers/{block,cdrom}/ ${WORKDIR}/${MODDIR} || true
 else

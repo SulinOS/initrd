@@ -35,32 +35,7 @@ overlay_mount(){
 		mount -t tmpfs -o size=100% none /root/a
 	fi
 }
-live_config(){
-	if [ -f /rootfs/$subdir/sbin/openrc-run ] ; then
-		if [ "${live_user}" == "" ] ; then
-			export live_user="user"
-		fi
-		if [ "${live_pass}" == "" ] ; then
-			export live_pass="live"
-		fi
-		if [ "${live_hostname}" == "" ] ; then
-			export live_hostname="SulinOS"
-		fi
-		chroot /rootfs/$subdir/ sh -c "useradd ${live_user}" || true
-		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd ${live_user}" || true
-		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd" || true
-		echo ${live_hostname} > /rootfs/$subdir/etc/hostname
-		if [ "${live_locale}" != "" ] ; then
-			export LANG=${live_locale}
-			export LC_ALL=${live_locale}
-		fi
-		if [ "${live_keymap}" != "" ] ; then
-			echo -e "keymap=\"${live_keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
-		fi
-	else
-		warn "Live config cannot works without openrc"
-	fi
-}
+
 live_boot(){
 	# load loop module
 	if find /lib/modules | grep "/loop.ko$" ; then
@@ -98,7 +73,6 @@ live_boot(){
 	fi
 	overlay_mount
 	[ -d /output/merge ] && cp -prf /output/merge/* /rootfs/ &>/dev/null
-	[ -n "${no-live-config}" ] && live_config
 	common_boot || fallback_shell
 }
 freeze_boot(){
