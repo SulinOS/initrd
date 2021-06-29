@@ -24,12 +24,13 @@ overlay_mount(){
 	debug "Creating overlayfs"
 	mount -t overlay -o lowerdir=/source/,upperdir=/root/a,workdir=/root/b overlay /rootfs
 	if [ "$overlay" == "zram" ]; then
-		modprobe zram num_devices=1 2>/dev/null || true
+		modprobe zram num_devices=2 2>/dev/null || true
 		echo $memtotal > /sys/block/zram0/disksize
-		sh
+		echo $memtotal > /sys/block/zram1/disksize
 		mkfs.ext2 /dev/zram0
+		mkfs.ext2 /dev/zram1
 		mount -t auto /dev/zram0 /root/a
-		mount -t tmpfs -o size=100% none /root/b
+		mount -t auto /dev/zram1 /root/b
 	else
 		mount -t tmpfs -o size=100% none /root/b
 		mount -t tmpfs -o size=100% none /root/a
