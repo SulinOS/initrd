@@ -26,7 +26,6 @@ overlay_mount(){
 	if [ "$overlay" == "zram" ]; then
 		modprobe zram num_devices=1 2>/dev/null || true
 		echo $memtotal > /sys/block/zram0/disksize
-		sh
 		mkfs.ext2 /dev/zram0
 		mount -t auto /dev/zram0 /root/a
 		mount -t tmpfs -o size=100% none /root/b
@@ -137,6 +136,7 @@ normal_boot(){
 	done
 	common_boot || fallback_shell
 }
+
 
 classic_boot(){
 	debug "Mounting rootfs"
