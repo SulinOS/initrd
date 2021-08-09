@@ -8,7 +8,7 @@ generate_rootfs(){
 	/busybox --install -s /bin
 	msg 'Creating initrd'
 	/busybox mkdir /dev || true
-	/busybox mdev -s 2>/dev/null
+	/busybox mdev -s 2>/dev/null || true
 }
 run_modules(){
 	for i in $(ls /scripts | sort)
@@ -26,14 +26,14 @@ mount_handler(){
 	/busybox mount -t tmpfs tmpfs /run  || true
 	if [ -e /sys/firmware/efi ]; then
 		inf "UEFI mode detected"
-		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec
+		mount -t efivarfs efivarfs /sys/firmware/efi/efivars -o nosuid,nodev,noexec || true
 	fi
         export memtotal=$(cat /proc/meminfo | grep MemTotal | sed "s/.*  //" | sed "s/ .*//g")
 }
 parse_cmdline(){
 	for i in $(cat /proc/cmdline)
 	do
-		echo export $(echo $i | tr -d '.,\!\(\[\{') >> /env
+		echo export $(echo $i | tr -d '-.,\!\(\[\{') >> /env
 	done
 	. /env || true
 }

@@ -24,42 +24,19 @@ overlay_mount(){
 	debug "Creating overlayfs"
 	mount -t overlay -o lowerdir=/source/,upperdir=/root/a,workdir=/root/b overlay /rootfs
 	if [ "$overlay" == "zram" ]; then
-		modprobe zram num_devices=1 2>/dev/null || true
+		modprobe zram num_devices=2 2>/dev/null || true
 		echo $memtotal > /sys/block/zram0/disksize
+		echo $memtotal > /sys/block/zram1/disksize
 		mkfs.ext2 /dev/zram0
+		mkfs.ext2 /dev/zram1
 		mount -t auto /dev/zram0 /root/a
-		mount -t tmpfs -o size=100% none /root/b
+		mount -t auto /dev/zram1 /root/b
 	else
 		mount -t tmpfs -o size=100% none /root/b
 		mount -t tmpfs -o size=100% none /root/a
 	fi
 }
-live_config(){
-	if [ -f /rootfs/$subdir/sbin/openrc-run ] ; then
-		if [ "${live_user}" == "" ] ; then
-			export live_user="user"
-		fi
-		if [ "${live_pass}" == "" ] ; then
-			export live_pass="live"
-		fi
-		if [ "${live_hostname}" == "" ] ; then
-			export live_hostname="SulinOS"
-		fi
-		chroot /rootfs/$subdir/ sh -c "useradd ${live_user}" || true
-		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd ${live_user}" || true
-		chroot /rootfs/$subdir/ sh -c "echo -ne \"${live_pass}\\n${live_pass}\\n\" | passwd" || true
-		echo ${live_hostname} > /rootfs/$subdir/etc/hostname
-		if [ "${live_locale}" != "" ] ; then
-			export LANG=${live_locale}
-			export LC_ALL=${live_locale}
-		fi
-		if [ "${live_keymap}" != "" ] ; then
-			echo -e "keymap=\"${live_keymap}\"" > /rootfs/$subdir/etc/conf.d/keymaps
-		fi
-	else
-		warn "Live config cannot works without openrc"
-	fi
-}
+
 live_boot(){
 	# load loop module
 	if find /lib/modules | grep "/loop.ko$" ; then
@@ -97,14 +74,15 @@ live_boot(){
 	fi
 	overlay_mount
 	[ -d /output/merge ] && cp -prf /output/merge/* /rootfs/ &>/dev/null
-	[ -n "${no-live-config}" ] && live_config
 	common_boot || fallback_shell
 }
 freeze_boot(){
 	mkdir -p /source/ # lower
 	debug "Mounting freeze media"
-	mount -t auto -o defaults,ro $root /source
+	mount -t auto -o defaults,rw $root /source
 	overlay_mount
+	[ -d /rootfs/home ] && mount --bind /source/home /rootfs/home
+	[ -d /rootfs/data ] && mount --bind /source/data /rootfs/data
 	common_boot || fallback_shell
 }
 image_boot(){
@@ -171,7 +149,7 @@ elif [ "$boot" == "freeze" ]; then
 elif [ "$boot" == "image" ]; then
 	wait_device
 	image_boot || fallback_shell
-	msg "Booting from" "$root (freeze)"
+	msg "Booting from" "$root (image)"
 else
 	wait_device
 	classic_boot || fallback_shell
